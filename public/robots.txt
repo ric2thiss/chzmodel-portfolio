@@ -1,0 +1,6 @@
+# Allow all search engine crawlers (Google, Bing, Yahoo, DuckDuckGo, Baidu)
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://chzmodel.com/sitemap.xml
