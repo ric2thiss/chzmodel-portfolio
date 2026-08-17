@@ -22,7 +22,11 @@ import {
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [lightboxState, setLightboxState] = useState({ isOpen: false, index: 0, customItem: null })
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    itemsList: [],
+    currentIndex: 0
+  })
 
   // Initialize AOS after loading screen finishes
   useEffect(() => {
@@ -37,35 +41,47 @@ export default function App() {
     }
   }, [isLoading])
 
-  const handleOpenLightbox = (index) => {
-    setLightboxState({ isOpen: true, index, customItem: null })
+  const handleOpenLightbox = (itemsList, index) => {
+    setLightboxState({
+      isOpen: true,
+      itemsList: Array.isArray(itemsList) ? itemsList : [itemsList],
+      currentIndex: typeof index === 'number' ? index : 0
+    })
   }
 
   const handleOpenHeroLightbox = (customItem) => {
-    setLightboxState({ isOpen: true, index: 0, customItem })
+    setLightboxState({
+      isOpen: true,
+      itemsList: [customItem],
+      currentIndex: 0
+    })
   }
 
   const handleCloseLightbox = () => {
-    setLightboxState({ isOpen: false, index: 0, customItem: null })
+    setLightboxState({
+      isOpen: false,
+      itemsList: [],
+      currentIndex: 0
+    })
   }
 
   const handlePrevLightbox = () => {
-    if (lightboxState.customItem) return
+    if (lightboxState.itemsList.length <= 1) return
     setLightboxState((prev) => ({
       ...prev,
-      index: (prev.index - 1 + portfolioGalleryItems.length) % portfolioGalleryItems.length
+      currentIndex: (prev.currentIndex - 1 + prev.itemsList.length) % prev.itemsList.length
     }))
   }
 
   const handleNextLightbox = () => {
-    if (lightboxState.customItem) return
+    if (lightboxState.itemsList.length <= 1) return
     setLightboxState((prev) => ({
       ...prev,
-      index: (prev.index + 1) % portfolioGalleryItems.length
+      currentIndex: (prev.currentIndex + 1) % prev.itemsList.length
     }))
   }
 
-  const activeLightboxItem = lightboxState.customItem || portfolioGalleryItems[lightboxState.index]
+  const activeLightboxItem = lightboxState.itemsList[lightboxState.currentIndex]
 
   return (
     <>

@@ -57,7 +57,7 @@ export default function PortfolioGallery({ items = [], categories = [], onOpenLi
           {filteredItems.map((item, index) => (
             <div
               key={item.id}
-              onClick={() => onOpenLightbox(index)}
+              onClick={() => onOpenLightbox && onOpenLightbox(filteredItems, index)}
               className="group relative cursor-pointer overflow-hidden bg-neutral-100 border border-neutral-100 shadow-sm hover:shadow-xl transition-all duration-500"
               data-aos={getAosAnimation(index)}
               data-aos-delay={index * 80}
